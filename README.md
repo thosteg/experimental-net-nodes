@@ -49,37 +49,41 @@ The protocol is very simple for the initial implementation (may grow more compli
 
 #### Connection Protocol
 
-The format is be as follows:
+The format is as follows:
 
-   <Q|A|E><id>: text describing task or response 
+   <Q|R|Err>:\n
+   Id:<id>\n
+   T:text describing task or response\n
+   \n
    
 with:
 
    <id> = [0-9]+
-   
-Examples (no real tasks):
 
-    -> Q1: calculate 1+1
-    -> Q2: write "hi" on the console
-    -> Q3: calculate 2*(2+3)
-    <- A1: 2
-    <- Q1: play "For Elise" on the speakers
-    <- Q2: write "ho" on the console
-    -> Q1: calculate 7*7
-    <- A3: 10
-    -> A2: wrote "ho"
-    -> A1: played "For Elise"
-    <- A1: 49
-    <- A2: wrote "hi"
+Comment lines begin with the character "#":
+       
+   # this is a comment
 
-Note:
+Example 1 (no real task):
 
-* Use T|R (ticket|response) instead of Q|A?
-     
-A node does not have to be able to perform a task. It can return an error, either by writing it as answer or responding with an "E":
-     
-    -> Q1: calculate 1/0
-    <- A1: Err
-    -> Q1: print "hello" on the console
-    <- E1: I can not print to the console
+    # ->
+    Q:
+    Id:1
+    T: calculate 1+1
+    
+    # <-
+    R:
+    Id:1  # is simply echoed
+    T: 2
 
+A node does not have to be able to perform a task. It can return an error, either by writing it as answer or responding with an "Err":
+ 
+    # ->
+    Q:
+    Id:1
+    T: calculate 1+1
+    
+    # <-
+    Err:
+    Id:1  # is simply echoed
+    T: can not calculate operator "+"
