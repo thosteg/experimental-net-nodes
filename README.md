@@ -62,7 +62,7 @@ with:
 
 Comment lines begin with the character "#":
        
-   # this is a comment
+    # this is a comment
 
 Example 1 (no real task):
 
